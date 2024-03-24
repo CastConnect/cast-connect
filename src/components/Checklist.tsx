@@ -9,7 +9,7 @@ import AddSignerButton from "./AddSignerButton";
 import RegisterFNameButton from "./RegisterFNameButton";
 import SendCastButton from "./SendCastButton";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
