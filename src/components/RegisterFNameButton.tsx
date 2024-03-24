@@ -111,7 +111,6 @@ export default function RegisterFnameButton({
           message: Message.toJSON(message.unwrapOr(null) as Message),
         })
         .then((res) => {
-          console.log(res);
           toast.success("fname registered");
           setDisableFname(true);
         })

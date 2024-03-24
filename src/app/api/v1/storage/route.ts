@@ -12,8 +12,6 @@ export async function POST(req: Request) {
   const data = await req.json();
   const fid = data.fid;
 
-  console.log(HUB_HTTPS_URL);
-
   const result = await axios.get(
     `${HUB_HTTPS_URL}/v1/storageLimitsByFid?fid=${fid}`,
     { headers }

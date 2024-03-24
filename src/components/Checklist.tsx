@@ -158,7 +158,6 @@ export default function Checklist() {
       axios
         .post("/api/v1/storage", { fid: fid })
         .then((response) => {
-          console.log(response);
           setHasStorage(Boolean(response.data.limits[0].limit)); // mainnet
         })
         .catch(function (error) {
