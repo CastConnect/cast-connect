@@ -1,3 +1,4 @@
+import { useFid } from "@/context/fidContext";
 import Image from "next/image";
 import { redirect } from 'next/navigation'
 
@@ -12,7 +13,7 @@ type USER_PROFILE = {
     USER_DATA_TYPE_DISPLAY: string,
 }
 
-export async function getUserData(fid: string) {
+async function getUserData(fid: string) {
   const result = await fetch(
     `${HUB_HTTPS_URL}/v1/userDataByFid?fid=${fid}`,
     { headers: {
@@ -31,6 +32,8 @@ export async function getUserData(fid: string) {
 
 export default async function Page({ params }: { params: { fid: string } }) {    
 
+  const fid = useFid()
+  fid.fid
    console.log(params)
    try {
     let result = await getUserData(params.fid) as USER_PROFILE

@@ -12,7 +12,7 @@ type USER_PROFILE = {
     USER_DATA_TYPE_DISPLAY: string,
 }
 
-export async function getUserData(fid: string) {
+async function getUserData(fid: string) {
   const result = await fetch(
     `${HUB_HTTPS_URL}/v1/userDataByFid?fid=${fid}`,
     { headers: {
