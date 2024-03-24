@@ -12,12 +12,13 @@ export async function POST(req: Request) {
   const data = await req.json();
   const fid = data.fid;
 
-  console.log(HUB_HTTPS_URL);
-
   const result = await axios.get(
-    `${HUB_HTTPS_URL}/v1/storageLimitsByFid?fid=${fid}`,
+    `${HUB_HTTPS_URL}/v1/userDataByFid?fid=${fid}`,
     { headers }
   );
+
+//   const result = data
+  console.log(result);
 
   return new Response(JSON.stringify(result.data));
 }
