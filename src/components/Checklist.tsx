@@ -119,6 +119,17 @@ export default function Checklist() {
     chainId: 10,
   });
 
+  const gotoProfile = () => {
+    window.location.href = `/profile/${fid}`;
+  };
+  const gotoFrames = () => {
+    window.location.href = `/profile/${fid}/frames`;
+  };
+
+  const gotoGlobalFrames = () => {
+    window.location.href = `/frames`;
+  };
+
   // Function to render different sections based on the current step
   const renderStep = () => {
     switch (step) {
@@ -466,6 +477,28 @@ export default function Checklist() {
           </h1>
           <Profile />
         </div>
+        {isConnected && (
+          <div className="flex flex-row justify-between mb-6">
+            <button
+              onClick={() => gotoProfile()}
+              className="w-28 inline-flex justify-center items-center rounded-md bg-purple-600 px-1.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 duration-100"
+            >
+              Profile
+            </button>
+            <button
+              onClick={() => gotoFrames()}
+              className="w-28 inline-flex justify-center items-center rounded-md bg-purple-600 px-1.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 duration-100"
+            >
+              Frames
+            </button>
+            <button
+              onClick={() => gotoGlobalFrames()}
+              className="w-28 inline-flex justify-center items-center rounded-md bg-purple-600 px-1.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 duration-100"
+            >
+              Global Frames
+            </button>
+          </div>
+        )}
         <div className="divide-y divide-gray-200">
           {renderStep()}
           {/* Navigation buttons */}
