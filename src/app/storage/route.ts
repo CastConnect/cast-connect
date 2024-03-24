@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const HUB_HTTPS_URL =
-  process.env.HUB_HTTPS_URL || "http://nemes.farcaster.xyz:2281";
+  process.env.HUB_HTTP_URL || "http://nemes.farcaster.xyz:2281";
 
 const headers = {
   "Content-Type": "application/json",
