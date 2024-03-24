@@ -84,6 +84,8 @@ export default function Checklist() {
   const { idRegistryABI, ID_REGISTRY_ADDRESS } = useHub();
   const { chain } = useNetwork();
 
+  const [step, setStep] = useState(1);
+
   const [recoveryAddress, setRecoveryAddress] = useState<string>("");
   const [fname, setFname] = useState<string>("");
   const [castText, setCastText] = useState("");
@@ -116,6 +118,269 @@ export default function Checklist() {
     enabled: Boolean(fid),
     chainId: 10,
   });
+
+  // Function to render different sections based on the current step
+  const renderStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          <>
+            {/* Registration section */}
+            <div className="relative flex items-start pb-4 pt-3.5">
+              <div className="min-w-0 flex-1 text-sm leading-6">
+                <label
+                  htmlFor="comments"
+                  className="font-medium text-gray-900 dark:text-white"
+                >
+                  Create account
+                </label>
+                <p
+                  id="comments-description"
+                  className="text-gray-500 dark:text-gray-400"
+                >
+                  Register a new Farcaster ID to your Ethereum address{" "}
+                  <span className="text-blue-600 dark:text-blue-300">
+                    {address}
+                  </span>{" "}
+                  <br />
+                  and enter a recovery address.
+                </p>
+                <p
+                  id="comments-description"
+                  className="text-red-500 dark:text-red-400"
+                >
+                  Note: You should have $5-$10 worth of ETH balance on OP
+                  Mainnet wallet to complete the registration process.
+                </p>
+                <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
+                  {!!registerFidTxHash && <p>|</p>}
+                  {!!registerFidTxHash && (
+                    <a
+                      href={`${BLOCK_EXPLORER_URL}tx/${registerFidTxHash}`}
+                      target="_blank"
+                      className="underline"
+                    >
+                      Show transaction
+                    </a>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  name="cast"
+                  id="cast"
+                  value={recoveryAddress}
+                  onChange={(e) => setRecoveryAddress(e.target.value)}
+                  className="mt-2 block w-2/4 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+                  placeholder="Recovery address"
+                  disabled={!isConnected || disableRecoveryAddress}
+                  data-1p-ignore
+                />
+              </div>
+              <RegisterFIDButton
+                recoveryAddress={recoveryAddress}
+                setRegisterFidTxHash={setRegisterFidTxHash}
+              />
+            </div>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            {/* Rent storage section */}
+            <div className="relative flex items-start pb-4 pt-3.5">
+              <div className="min-w-0 flex-1 text-sm leading-6">
+                <label
+                  htmlFor="candidates"
+                  className="font-medium text-gray-900 dark:text-white"
+                >
+                  Rent storage
+                </label>
+                <p
+                  id="candidates-description"
+                  className="text-gray-500 dark:text-gray-400"
+                >
+                  Renting one unit of storage lets you store up to 5,000 casts
+                  for a year. <br />
+                  The fee helps reduce spam on the network.
+                </p>
+                <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
+                  {!!rentTxHash && <p>|</p>}
+                  {!!rentTxHash && (
+                    <a
+                      href={`${BLOCK_EXPLORER_URL}tx/${rentTxHash}`}
+                      target="_blank"
+                      className="underline"
+                    >
+                      Show transaction
+                    </a>
+                  )}
+                </div>
+              </div>
+              <RentStorageUnitButton
+                hasStorage={hasStorage}
+                setHasStorage={setHasStorage}
+                setRentTxHash={setRentTxHash}
+              />
+            </div>
+          </>
+        );
+      case 3:
+        return (
+          <>
+            {/* Add signer section */}
+            <div className="relative flex items-start pb-4 pt-3.5">
+              <div className="min-w-0 flex-1 text-sm leading-6">
+                <label
+                  htmlFor="offers"
+                  className="font-medium text-gray-900 dark:text-white"
+                >
+                  Add a signer
+                </label>
+                <p
+                  id="offers-description"
+                  className="text-gray-500 dark:text-gray-400"
+                >
+                  A signer is a key pair that lets you create new messages or
+                  &quot;casts&quot;
+                </p>
+                <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
+                  {!!addSignerTxHash && <p>|</p>}
+                  {!!addSignerTxHash && (
+                    <a
+                      href={`${BLOCK_EXPLORER_URL}tx/${addSignerTxHash}`}
+                      target="_blank"
+                      className="underline"
+                    >
+                      Show transaction
+                    </a>
+                  )}
+                </div>
+              </div>
+              <AddSignerButton setAddSignerTxHash={setAddSignerTxHash} />
+            </div>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            {/* Register fname section */}
+            <div className="relative flex items-start pb-4 pt-3.5">
+              <div className="min-w-0 flex-1 text-sm leading-6">
+                <label
+                  htmlFor="offers"
+                  className="font-medium text-gray-900 dark:text-white"
+                >
+                  Register an fname{" "}
+                  <span className="text-green-300 dark:text-green-200 font-normal">
+                    (optional)
+                  </span>
+                </label>
+                <p
+                  id="offers-description"
+                  className="text-gray-500 dark:text-gray-400"
+                >
+                  Acquire a free offchain ENS username issued by Farcaster.{" "}
+                  <br />
+                </p>
+
+                <input
+                  type="text"
+                  name="fname"
+                  id="fname"
+                  value={fname}
+                  onChange={(e) => setFname(e.target.value)}
+                  className="mt-2 block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+                  placeholder="Enter your fname"
+                  disabled={!isConnected || !fid || disableFname}
+                  data-1p-ignore
+                />
+              </div>
+              <RegisterFNameButton
+                fname={fname}
+                disableFname={disableFname}
+                setDisableFname={setDisableFname}
+              />
+            </div>
+          </>
+        );
+      case 5:
+        return (
+          <>
+            {/* Publish cast section */}
+            <div className="relative flex items-start pb-4 pt-3.5">
+              <div className="min-w-0 flex-1 text-sm leading-6">
+                <label
+                  htmlFor="offers"
+                  className="font-medium text-gray-900 dark:text-white"
+                >
+                  Publish a cast
+                </label>
+                <p
+                  id="offers-description"
+                  className="text-gray-500 dark:text-gray-400"
+                >
+                  Write a hello world message or cast that shows up on your
+                  account.
+                </p>
+                <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
+                  {!!castHash && <p>|</p>}
+                  {!!castHash && !!fname && (
+                    <a
+                      href={`https://warpcast.com/${fname}/${castHash.slice(
+                        0,
+                        10
+                      )}`}
+                      target="_blank"
+                      className="underline"
+                    >
+                      See on warpcast
+                    </a>
+                  )}
+                  {!!castHash && !fname && (
+                    <a
+                      href={`https://warpcast.com/~/conversations/${castHash.slice(
+                        0,
+                        10
+                      )}`}
+                      target="_blank"
+                      className="underline"
+                    >
+                      See on warpcast
+                    </a>
+                  )}
+                  {!!castHash && !!fname && <p>|</p>}
+                  {!!castHash && !!fname && (
+                    <a
+                      href={`https://flink.fyi/${fname}/${castHash}`}
+                      target="_blank"
+                      className="underline"
+                    >
+                      See on flink.fyi
+                    </a>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  name="cast"
+                  id="cast"
+                  onChange={(e) => setCastText(e.target.value)}
+                  className="mt-2 block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+                  placeholder="Type your cast"
+                  disabled={!isConnected || !signer}
+                />
+              </div>
+              <SendCastButton
+                castText={castText}
+                castHash={castHash}
+                setCastHash={setCastHash}
+              />
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
   useEffect(() => {
     console.log("Your FID is: " + idOf);
@@ -187,241 +452,41 @@ export default function Checklist() {
     }
   }, [fid, setSigner]);
 
+  const isRegistrationDone = () => {
+    return !!registerFidTxHash;
+  };
+
   return (
     <WagmiConfig config={config}>
       <fieldset className="border-gray-200 md:min-w-[1080px]">
         <Toaster richColors expand={true} />
         <div className="flex flex-row justify-between mb-6">
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Sign up for Farcaster
+            CastConnect for Farcaster
           </h1>
-          {/* <ConnectKitButton /> */}
           <Profile />
         </div>
         <div className="divide-y divide-gray-200">
-          <div className="relative flex items-start pb-4 pt-3.5">
-            <div className="min-w-0 flex-1 text-sm leading-6">
-              <label
-                htmlFor="comments"
-                className="font-medium text-gray-900 dark:text-white"
+          {renderStep()}
+          {/* Navigation buttons */}
+          <div className="flex justify-between mt-4">
+            {step > 1 && (
+              <button
+                onClick={() => setStep(step - 1)}
+                className="w-28 inline-flex mt-4 justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300"
               >
-                Create account
-              </label>
-              <p
-                id="comments-description"
-                className="text-gray-500 dark:text-gray-400"
+                Previous
+              </button>
+            )}
+            {step < 5 && (
+              <button
+                onClick={() => setStep(step + 1)}
+                disabled={step < 5 && !isRegistrationDone()}
+                className="w-28 inline-flex mt-4 justify-center items-center gap-x-2 rounded-md bg-purple-600 disabled:bg-purple-200 px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:shadow-none disabled:cursor-not-allowed hover:bg-purple-500 duration-100 dark:disabled:bg-purple-900 dark:disabled:bg-opacity-60 dark:disabled:text-gray-300"
               >
-                Register a new Farcaster ID to your Ethereum address{" "}
-                <span className="text-blue-600 dark:text-blue-300">
-                  {address}
-                </span>{" "}
-                <br />
-                and enter a recovery address.
-              </p>
-              <p
-                id="comments-description"
-                className="text-red-500 dark:text-red-400"
-              >
-                Note: You should have $5-$10 worth of ETH balance on OP Mainnet
-                wallet to complete the registration process.
-              </p>
-              <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
-                {!!registerFidTxHash && <p>|</p>}
-                {!!registerFidTxHash && (
-                  <a
-                    href={`${BLOCK_EXPLORER_URL}tx/${registerFidTxHash}`}
-                    target="_blank"
-                    className="underline"
-                  >
-                    Show transaction
-                  </a>
-                )}
-              </div>
-              <input
-                type="text"
-                name="cast"
-                id="cast"
-                value={recoveryAddress}
-                onChange={(e) => setRecoveryAddress(e.target.value)}
-                className="mt-2 block w-2/4 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
-                placeholder="Recovery address"
-                disabled={!isConnected || disableRecoveryAddress}
-                data-1p-ignore
-              />
-            </div>
-            <RegisterFIDButton
-              recoveryAddress={recoveryAddress}
-              setRegisterFidTxHash={setRegisterFidTxHash}
-            />
-          </div>
-          <div className="relative flex items-start pb-4 pt-3.5">
-            <div className="min-w-0 flex-1 text-sm leading-6">
-              <label
-                htmlFor="candidates"
-                className="font-medium text-gray-900 dark:text-white"
-              >
-                Rent storage
-              </label>
-              <p
-                id="candidates-description"
-                className="text-gray-500 dark:text-gray-400"
-              >
-                Renting one unit of storage lets you store up to 5,000 casts for
-                a year. <br />
-                The fee helps reduce spam on the network.
-              </p>
-              <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
-                {!!rentTxHash && <p>|</p>}
-                {!!rentTxHash && (
-                  <a
-                    href={`${BLOCK_EXPLORER_URL}tx/${rentTxHash}`}
-                    target="_blank"
-                    className="underline"
-                  >
-                    Show transaction
-                  </a>
-                )}
-              </div>
-            </div>
-            <RentStorageUnitButton
-              hasStorage={hasStorage}
-              setHasStorage={setHasStorage}
-              setRentTxHash={setRentTxHash}
-            />
-          </div>
-          <div className="relative flex items-start pb-4 pt-3.5">
-            <div className="min-w-0 flex-1 text-sm leading-6">
-              <label
-                htmlFor="offers"
-                className="font-medium text-gray-900 dark:text-white"
-              >
-                Add a signer
-              </label>
-              <p
-                id="offers-description"
-                className="text-gray-500 dark:text-gray-400"
-              >
-                A signer is a key pair that lets you create new messages or
-                &quot;casts&quot;
-              </p>
-              <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
-                {!!addSignerTxHash && <p>|</p>}
-                {!!addSignerTxHash && (
-                  <a
-                    href={`${BLOCK_EXPLORER_URL}tx/${addSignerTxHash}`}
-                    target="_blank"
-                    className="underline"
-                  >
-                    Show transaction
-                  </a>
-                )}
-              </div>
-            </div>
-            <AddSignerButton setAddSignerTxHash={setAddSignerTxHash} />
-          </div>
-          <div className="relative flex items-start pb-4 pt-3.5">
-            <div className="min-w-0 flex-1 text-sm leading-6">
-              <label
-                htmlFor="offers"
-                className="font-medium text-gray-900 dark:text-white"
-              >
-                Register an fname{" "}
-                <span className="text-green-300 dark:text-green-200 font-normal">
-                  (optional)
-                </span>
-              </label>
-              <p
-                id="offers-description"
-                className="text-gray-500 dark:text-gray-400"
-              >
-                Acquire a free offchain ENS username issued by Farcaster. <br />
-              </p>
-
-              <input
-                type="text"
-                name="fname"
-                id="fname"
-                value={fname}
-                onChange={(e) => setFname(e.target.value)}
-                className="mt-2 block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
-                placeholder="Enter your fname"
-                disabled={!isConnected || !fid || disableFname}
-                data-1p-ignore
-              />
-            </div>
-            <RegisterFNameButton
-              fname={fname}
-              disableFname={disableFname}
-              setDisableFname={setDisableFname}
-            />
-          </div>
-          <div className="relative flex items-start pb-4 pt-3.5">
-            <div className="min-w-0 flex-1 text-sm leading-6">
-              <label
-                htmlFor="offers"
-                className="font-medium text-gray-900 dark:text-white"
-              >
-                Publish a cast
-              </label>
-              <p
-                id="offers-description"
-                className="text-gray-500 dark:text-gray-400"
-              >
-                Write a hello world message or cast that shows up on your
-                account.
-              </p>
-              <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
-                {!!castHash && <p>|</p>}
-                {!!castHash && !!fname && (
-                  <a
-                    href={`https://warpcast.com/${fname}/${castHash.slice(
-                      0,
-                      10
-                    )}`}
-                    target="_blank"
-                    className="underline"
-                  >
-                    See on warpcast
-                  </a>
-                )}
-                {!!castHash && !fname && (
-                  <a
-                    href={`https://warpcast.com/~/conversations/${castHash.slice(
-                      0,
-                      10
-                    )}`}
-                    target="_blank"
-                    className="underline"
-                  >
-                    See on warpcast
-                  </a>
-                )}
-                {!!castHash && !!fname && <p>|</p>}
-                {!!castHash && !!fname && (
-                  <a
-                    href={`https://flink.fyi/${fname}/${castHash}`}
-                    target="_blank"
-                    className="underline"
-                  >
-                    See on flink.fyi
-                  </a>
-                )}
-              </div>
-              <input
-                type="text"
-                name="cast"
-                id="cast"
-                onChange={(e) => setCastText(e.target.value)}
-                className="mt-2 block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
-                placeholder="Type your cast"
-                disabled={!isConnected || !signer}
-              />
-            </div>
-            <SendCastButton
-              castText={castText}
-              castHash={castHash}
-              setCastHash={setCastHash}
-            />
+                Next
+              </button>
+            )}
           </div>
         </div>
       </fieldset>
