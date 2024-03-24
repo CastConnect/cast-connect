@@ -41,7 +41,7 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
       modalZIndex: "2147483647",
     },
     web3AuthNetwork: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,
-    enableLogging: true,
+    // enableLogging: true,
   });
 
   // Add openlogin adapter for customisations
