@@ -1,6 +1,10 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import ClientLayout from "@/providers/web3provider";
+import { FidProvider } from "@/context/fidContext";
+import { SignerProvider } from "@/context/signerContext";
+import { HubProvider } from "@/context/hubContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,12 +16,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <link
+        rel="icon"
+        href="https://framerusercontent.com/modules/jVMp8b8ZfTZpbLnhDiml/NV8p4XHr9GEQFJDJsKKb/assets/DE2CvWySqIW7eDC8Ehs5bCK6g.svg"
+      ></link>
+      <body className={inter.className}>
+        <ClientLayout>
+          <HubProvider>
+            <FidProvider>
+              <SignerProvider>{children}</SignerProvider>
+            </FidProvider>
+          </HubProvider>
+        </ClientLayout>
+      </body>
     </html>
   );
 }
