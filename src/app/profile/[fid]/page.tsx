@@ -32,9 +32,9 @@ async function getUserData(fid: string) {
 
 export default async function Page({ params }: { params: { fid: string } }) {    
 
-  const fid = useFid()
-  fid.fid
-   console.log(params)
+  // const fid = useFid()
+  // fid.fid
+  //  console.log(params)
    try {
     let result = await getUserData(params.fid) as USER_PROFILE
 
