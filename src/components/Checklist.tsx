@@ -452,8 +452,9 @@ export default function Checklist() {
     }
   }, [fid, setSigner]);
 
+  // Function to check if registration is done
   const isRegistrationDone = () => {
-    return !!registerFidTxHash;
+    return !!registerFidTxHash || !!fid;
   };
 
   return (
