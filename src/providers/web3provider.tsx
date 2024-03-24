@@ -23,6 +23,8 @@ const config = createConfig(
       process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ||
       "04309ed1007e77d1f119b85205bb779d",
 
+    chains: [optimism, mainnet],
+
     // Required
     appName: "Sign up for Farcaster with Web3Auth",
 
