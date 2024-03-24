@@ -17,7 +17,5 @@ export async function POST(req: Request) {
     { headers }
   );
 
-  console.log(result);
-
-  return new Response(JSON.stringify(result));
+  return new Response(JSON.stringify(result.data));
 }

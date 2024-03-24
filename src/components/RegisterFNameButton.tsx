@@ -107,11 +107,10 @@ export default function RegisterFnameButton({
 
     if (message) {
       axios
-        .post("/hub", {
+        .post("/api/v1/hub", {
           message: Message.toJSON(message.unwrapOr(null) as Message),
         })
         .then((res) => {
-          console.log(res);
           toast.success("fname registered");
           setDisableFname(true);
         })
