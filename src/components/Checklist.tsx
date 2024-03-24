@@ -51,7 +51,7 @@ function Profile() {
     return (
       <div className="text-white">
         <button
-          className="w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold"
+          className="w-28 inline-flex justify-center items-center gap-x-2 rounded-md bg-red-500 px-3 py-2 text-sm font-semibold"
           onClick={() => disconnect()}
         >
           Disconnect
@@ -64,7 +64,7 @@ function Profile() {
         {connectors.map((connector) => {
           return (
             <button
-              className="w-48 inline-flex justify-center items-center gap-x-2 rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white"
+              className="w-48 inline-flex justify-center items-center gap-x-2 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white"
               key={connector.id}
               onClick={() => connect({ connector })}
             >
@@ -189,7 +189,7 @@ export default function Checklist() {
 
   return (
     <WagmiConfig config={config}>
-      <fieldset className="border-gray-200 md:min-w-[600px]">
+      <fieldset className="border-gray-200 md:min-w-[1080px]">
         <Toaster richColors expand={true} />
         <div className="flex flex-row justify-between mb-6">
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -211,8 +211,19 @@ export default function Checklist() {
                 id="comments-description"
                 className="text-gray-500 dark:text-gray-400"
               >
-                Register a new Farcaster ID to your Ethereum address <br />{" "}
-                {address} and choose a recovery address.
+                Register a new Farcaster ID to your Ethereum address{" "}
+                <span className="text-blue-600 dark:text-blue-300">
+                  {address}
+                </span>{" "}
+                <br />
+                and enter a recovery address.
+              </p>
+              <p
+                id="comments-description"
+                className="text-red-500 dark:text-red-400"
+              >
+                Note: You should have $5-$10 worth of ETH balance on OP Mainnet
+                wallet to complete the registration process.
               </p>
               <div className="flex flex-row gap-x-1 text-gray-500 dark:text-gray-400">
                 {!!registerFidTxHash && <p>|</p>}
@@ -232,7 +243,7 @@ export default function Checklist() {
                 id="cast"
                 value={recoveryAddress}
                 onChange={(e) => setRecoveryAddress(e.target.value)}
-                className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+                className="mt-2 block w-2/4 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
                 placeholder="Recovery address"
                 disabled={!isConnected || disableRecoveryAddress}
                 data-1p-ignore
@@ -315,15 +326,15 @@ export default function Checklist() {
                 className="font-medium text-gray-900 dark:text-white"
               >
                 Register an fname{" "}
-                <span className="text-gray-400 font-normal">(optional)</span>
+                <span className="text-green-300 dark:text-green-200 font-normal">
+                  (optional)
+                </span>
               </label>
               <p
                 id="offers-description"
                 className="text-gray-500 dark:text-gray-400"
               >
                 Acquire a free offchain ENS username issued by Farcaster. <br />
-                You can also use onchain ENS names, but that&apos;s not covered
-                here.
               </p>
 
               <input
@@ -332,7 +343,7 @@ export default function Checklist() {
                 id="fname"
                 value={fname}
                 onChange={(e) => setFname(e.target.value)}
-                className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+                className="mt-2 block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
                 placeholder="Enter your fname"
                 disabled={!isConnected || !fid || disableFname}
                 data-1p-ignore
@@ -401,7 +412,7 @@ export default function Checklist() {
                 name="cast"
                 id="cast"
                 onChange={(e) => setCastText(e.target.value)}
-                className="mt-2 block w-64 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
+                className="mt-2 block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 disabled:dark:ring-gray-700 duration-100"
                 placeholder="Type your cast"
                 disabled={!isConnected || !signer}
               />
