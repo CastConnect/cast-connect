@@ -30,15 +30,14 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
     // uiConfig refers to the whitelabeling options, which is available only on Growth Plan and above
     // Please remove this parameter if you're on the Base Plan
     uiConfig: {
-      appName: "W3A Farcaster",
-      // appLogo: "https://web3auth.io/images/web3auth-logo.svg", // Your App Logo Here
+      appName: "Farcaster Client",
       theme: {
         primary: "#9334e9",
       },
       mode: "dark",
       defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
       loginGridCol: 3,
-      primaryButton: "externalLogin", // "externalLogin" | "socialLogin" | "emailLogin"
+      primaryButton: "socialLogin", // "externalLogin" | "socialLogin" | "emailLogin"
       modalZIndex: "2147483647",
     },
     web3AuthNetwork: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,

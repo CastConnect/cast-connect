@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Sign up for Farcaster with Web3Auth",
   description:
-    "Simple app illustrating how to sign up for Farcaster using your Web3Auth ETH account.",
+    "Simple app illustrating how to sign up for Farcaster using your Web3Auth account.",
 };
 
 export default function RootLayout({
