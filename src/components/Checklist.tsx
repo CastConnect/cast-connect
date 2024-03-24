@@ -9,7 +9,7 @@ import AddSignerButton from "./AddSignerButton";
 import RegisterFNameButton from "./RegisterFNameButton";
 import SendCastButton from "./SendCastButton";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
@@ -119,12 +119,36 @@ export default function Checklist() {
     chainId: 10,
   });
 
+  const gotoProfile = () => {
+    window.location.href = `/profile/${fid}`;
+  }
+  const gotoFrames = () => {
+    window.location.href = `/profile/${fid}/frames`;
+  }
+
+  const gotoGlobalFrames = () => {
+    window.location.href = `/frames`;
+  }
+
   // Function to render different sections based on the current step
   const renderStep = () => {
     switch (step) {
       case 1:
         return (
           <>
+          { fid &&  <>
+
+              <button onClick={gotoProfile} >
+                Profile
+              </button>
+              <button onClick={gotoFrames} >
+                Trending Personalize Frames
+              </button>
+              <button onClick={gotoGlobalFrames} >
+                Trending Global Frames
+              </button>
+            </>
+          }
             {/* Registration section */}
             <div className="relative flex items-start pb-4 pt-3.5">
               <div className="min-w-0 flex-1 text-sm leading-6">
