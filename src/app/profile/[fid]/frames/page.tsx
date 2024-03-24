@@ -1,6 +1,6 @@
 import Image from "next/image";
 const GraphCast = 'https://graph.cast.k3l.io'
-const getPersonalizeFrames = async (fid) => {
+const getPersonalizeFrames = async (fid: string) => {
     let params = new URLSearchParams()
     params.append('agg', 'sumsquare')
     params.append('weight', 'L1C10R5')
